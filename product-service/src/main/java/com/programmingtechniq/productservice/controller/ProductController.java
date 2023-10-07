@@ -1,11 +1,14 @@
 package com.programmingtechniq.productservice.controller;
 
 import com.programmingtechniq.productservice.dto.ProductRequest;
+import com.programmingtechniq.productservice.dto.ProductResponse;
 import com.programmingtechniq.productservice.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/product")
@@ -19,6 +22,12 @@ public class ProductController {
     public void creteProduct(@RequestBody ProductRequest productRequest){
         productService.createProduct(productRequest);
 
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProductResponse> getAllProducts(){
+       return productService.getAllProducts();
     }
 
 }
