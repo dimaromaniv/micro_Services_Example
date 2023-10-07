@@ -16,7 +16,7 @@ public class InventoryService {
 
     @Transactional(readOnly = true)
     public boolean isINStock(String skuCode){
-        return inventoryRepository.findBySkuCode().isPresent();
+        return inventoryRepository.findBySkuCode(skuCode).isPresent();
 
     }
 }
