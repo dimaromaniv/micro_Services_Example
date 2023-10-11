@@ -8,6 +8,7 @@ import com.programmingtechniq.orderservice.repositorys.OrderRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,6 +19,10 @@ import java.util.UUID;
 public class OrderServices {
 
     private final OrderRepository orderRepository;
+
+    private final WebClient webClient;
+
+
     public void placeServices(OrderRequest orderRequest) {
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
@@ -28,7 +33,17 @@ public class OrderServices {
                 .toList();
         order.setOrderLineItemList(orderLineItemList);
 
+        Boolean result = webClient.get()
+                .uri("http://localhost:8082/api/inventory")
+                .retrieve()
+                .bodyToMono(Boolean.class)
+                .block();
+
+        if (result) {
         orderRepository.save(order);
+        } else {
+            throw new IllegalArgumentException("Product is not in stock ,please try again later");
+        }
     }
 
     private OrderLineItem mapToDto(OrderLineItemDto orderLineItemDto) {
