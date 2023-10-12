@@ -1,6 +1,6 @@
 package com.programmingtechniq.productservice.services;
 
-import com.mongodb.annotations.Sealed;
+
 import com.programmingtechniq.productservice.dto.ProductRequest;
 import com.programmingtechniq.productservice.dto.ProductResponse;
 import com.programmingtechniq.productservice.models.Product;
